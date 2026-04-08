@@ -1123,7 +1123,7 @@ document.querySelector('.me__cv').addEventListener('click', () => {
 let currentLang = localStorage.getItem("selectedLang") || "en";
 const projects = [
   {
-    img: "./src/image/projects/Receipt2JSON.png",
+    img: "./src/image/projects/Receipt2JSON.png" ,
     title: "Receipt2JSON bot",
     category: {
       en: "commercial",
