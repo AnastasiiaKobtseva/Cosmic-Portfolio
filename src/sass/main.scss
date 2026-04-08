@@ -1,0 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  padding: 0;
+  margin: 0;
+  background-color: black;
+}
+html,
+body {
+  height: 100%;
+  // overflow: hidden;
+  overflow-x: hidden;
+  touch-action: none;
+  width: 100%;
+}
+#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+#globeViz {
+  position: fixed; /* щоб залишався на фоні при скролі */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* щоб він був позаду контенту */
+  opacity: 0; /* для плавного показу */
+  transition: opacity 1s;
+}
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  z-index: 99999; // збільшіть
+  isolation: isolate; // додайте
+  opacity: 1; // ← додати
+  transition: opacity 2s ease;
+}
+
+.preloader.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+.world {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  .world__dotted-line {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px dashed white;
+    opacity: 0.7;
+  }
+
+  .planet-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: orbit 4s linear infinite;
+  }
+
+  .planet-world {
+    position: absolute;
+    top: -12px; /* половина розміру іконки */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+  }
+
+  @keyframes orbit {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .subtitle {
+  position: absolute; // ← додати
+  top: 50%;           // ← додати
+  left: 50%;          // ← додати
+  transform: translate(-50%, -50%); // ← додати
+  color: white;
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 100;
+  line-height: 100%;
+  text-transform: uppercase;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid white;
+  animation: 
+    typing 2s steps(12) forwards,
+    blink 0.7s step-end infinite;
+  animation-delay: 1s, 1s;
+}
+  @keyframes typing {
+  from { width: 0; }
+  to   { width: 10ch; }
+}
+
+@keyframes blink {
+  0%, 100% { border-color: white; }
+  50%       { border-color: transparent; }
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@import "./components/header";
+@import "./components/about";
+@import "./components/projects";
+@import "./components/contacts";
+
+:root {
+  --nav-bg: rgba(0, 0, 0, 0.2);
+  --nav-border: white;
+  --nav-shadow: 0 0 30px rgba(227, 228, 237, 0.37);
+  --theme-backdrop: blur(30px);
+  --theme-padding: 10px;
+  --theme-border-radius: 10px;
+}
+
+
+

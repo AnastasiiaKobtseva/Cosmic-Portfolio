@@ -1,0 +1,266 @@
+#about-me {
+    padding: 80px 0;
+    text-align: center;
+    position: sticky; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    transform: translateY(100px);
+    pointer-events: none;
+    background-color: transparent;
+    z-index: 10;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  
+  &.fade-out {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+  
+  &.fade-in {
+    opacity: 1 !important;
+  }
+}
+
+.about-me__content-title {
+    color: var(--nav-border);
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 200;
+    line-height: 100%;
+    text-transform: uppercase;
+    font-size: 90px;
+    padding: 0 0 50px 0;
+}
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+.me {
+    position: relative;
+}
+.me__img {
+    height: auto;
+    width: 450px;
+    border-radius: 20px;
+}
+.me__cv {
+  border-radius: 0 0 20px 20px;
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #000000ab;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 20px 0;
+    width: 100%;
+    cursor: pointer;
+    font-family: "Exo 2";
+    font-style: normal;
+    line-height: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    transition: transform .3s linear;
+    z-index: 2;
+}
+.me__cv:hover {
+    background-color: #000000d0;
+    -webkit-transition: background-color 400ms linear, color 400ms linear;
+    -ms-transition: background-color 400ms linear, color 400ms linear;
+    transition: background-color 400ms linear, color 400ms linear;
+
+    color: rgb(210, 210, 210);
+}
+.who {
+    text-align: start;
+    border: 1px solid var(--nav-border);
+    padding: 20px;
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    box-shadow: var(--nav-shadow);
+}
+
+.who__content-title {
+    color: var(--nav-border);
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 200;
+    line-height: 100%;
+    text-transform: uppercase;
+    font-size: 55px;
+}
+.who__content-texts {
+    padding: 20px 0 40px 0;
+}
+.who__content-paragraf {
+    font-family: "Exo 2";
+    color: white;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    font-size: 16px;
+}
+.skills {
+    padding: 20px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 10px;
+}
+.skills__content {
+    color: white;
+    border: 1px solid var(--nav-border);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 100%;
+    font-family: "Exo 2";
+    font-size: 14px;
+    border-radius: 40px;
+    padding: 5px;
+    width: 150px;
+    transition: transform 0.3s linear;
+}
+.skills__content:hover {
+    transform: scale(.98);
+}
+@media (max-width: 1024px) {
+    .about-me__content-title {
+        font-size: 60px;
+    }
+    .about {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .me__img {
+    width: 350px;
+  }
+
+  .who {
+    width: 90%;
+  }
+
+  .who__content-title {
+    font-size: 45px;
+    text-align: center;
+  }
+
+  .who__content-paragraf {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .skills {
+    justify-content: center;
+  }
+
+  .skills__content {
+    width: 120px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 768px) {
+    .about-me__content-title {
+        font-size: 50px;
+    }
+    .about-me {
+    padding: 60px 0;
+  }
+
+  .about-me__content-title {
+    font-size: 50px;
+    padding-bottom: 40px;
+  }
+
+  .about {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .me__img {
+    width: 300px;
+  }
+
+  .me__cv {
+    font-size: 14px;
+    padding: 15px 0;
+  }
+
+  .who {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .who__content-title {
+    font-size: 38px;
+  }
+
+  .who__content-paragraf {
+    font-size: 14px;
+  }
+
+  .skills {
+    gap: 8px;
+  }
+
+  .skills__content {
+    width: 110px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 480px) {
+    .about-me__content-title {
+        font-size: 40px;
+    }
+    .about-me {
+    padding: 50px 0;
+  }
+
+  .about-me__content-title {
+    font-size: 40px;
+    padding-bottom: 30px;
+  }
+
+  .me__img {
+    width: 250px;
+    border-radius: 15px;
+  }
+
+  .me__cv {
+    font-size: 13px;
+    padding: 12px 0;
+  }
+
+  .who {
+    padding: 10px;
+  }
+
+  .who__content-title {
+    font-size: 30px;
+  }
+
+  .who__content-paragraf {
+    font-size: 13px;
+    line-height: 130%;
+  }
+
+  .skills {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .skills__content {
+    width: 100px;
+    font-size: 11px;
+    padding: 4px;
+  }
+}

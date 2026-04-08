@@ -1,0 +1,466 @@
+.projects {
+  padding: 80px 0;
+    display: none; // Спочатку прихована
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+    z-index: 5;
+    visibility: hidden; // Додатково
+    opacity: 0; // Додатково
+    
+}
+.projects__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+}
+.familiarization {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.familiarization__title {
+  color: var(--nav-border);
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  text-transform: uppercase;
+  font-size: 90px;
+}
+.familiarization__content {
+}
+.familiarization__text {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 20px;
+}
+.familiarization__review {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(30px);
+  box-shadow: var(--nav-shadow);
+  border: 1px solid var(--nav-border);
+  border-radius: 20px;
+  width: 160px;
+  padding: 7px;
+  justify-content: center;
+  transition: transform 0.3s linear;
+}
+.familiarization__review:hover {
+  transform: scale(0.98);
+}
+.familiarization__review svg {
+  height: auto;
+  width: 20px;
+}
+.familiarization__review-text {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 15px;
+}
+.image-modal {
+  display: none; /* приховано за замовчуванням */
+  position: fixed;
+  z-index: 9999;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.image-modal__content {
+  display: block;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80vh;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: zoomIn 0.3s ease;
+}
+
+.image-modal__close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image-modal__close:hover {
+  color: #ccc;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.projects-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.projects-carousel__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+
+  overflow: hidden;
+  height: 320px;
+}
+.work {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid var(--nav-border);
+  padding: 20px;
+  border-radius: 20px;
+  width: 400px;
+  backdrop-filter: blur(30px);
+  box-shadow: var(--nav-shadow);
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 1s ease;
+}
+
+.work.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.work__content {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.work__name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.work__content-img {
+  height: auto;
+  width: 60px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.work__name-title {
+  color: white;
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%;
+  text-transform: uppercase;
+}
+.work__name-category {
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100px;
+  width: 100%;
+}
+.work__name-category.commercial {
+  color: rgb(248, 37, 37);
+  border: 1px solid rgba(248, 84, 84, 0.202);
+  background-color: rgba(248, 84, 84, 0.183);
+}
+.work__name-category.individual {
+  color: hsl(208, 100%, 50%);
+  border: 1px solid hsla(208, 91%, 63%, 0.202);
+  background-color: hsla(208, 91%, 63%, 0.183);
+}
+.work__name-category.group {
+  color: hsl(125, 100%, 58%);
+  border: 1px solid hsla(125, 100%, 58%, 0.202);
+  background-color: hsla(125, 100%, 58%, 0.183);
+}
+.work__subtitle {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 14px;
+}
+.technologies {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tech-item {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 13px;
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 20px;
+  transition: transform 0.3s linear;
+}
+.tech-item:hover {
+  transform: scale(0.98);
+}
+.work__btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 0 0;
+}
+.work__btns-btn {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 14px;
+  padding: 5px 10px;
+
+  border: 1px solid white;
+  border-radius: 10px;
+  transition: transform 0.3s linear;
+}
+.work__btns-btn:hover {
+  transform: scale(0.98);
+}
+.projects-carousel__arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.projects-carousel__num {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.counts {
+  color: white;
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 14px;
+}
+.everything {
+  color: rgba(255, 255, 255, 0.556);
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 200;
+  line-height: 100%;
+  font-size: 14px;
+}
+.projects-carousel__arrows-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 2px solid var(--nav-border);
+  backdrop-filter: blur(30px);
+  box-shadow: var(--nav-shadow);
+  width: 40px;
+  height: 80px;
+  cursor: pointer;
+  transition: transform 0.3s linear;
+}
+.projects-carousel__arrows-svg:hover {
+  transform: scale(0.98);
+}
+.arrow-desktop {
+  display: block;
+}
+.arrow-mobile {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .projects {
+    height: auto;
+    display: block;
+  }
+  .familiarization__title {
+    font-size: 60px;
+  }
+  .projects__content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .familiarization {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .projects-carousel {
+    flex-direction: column-reverse;
+    gap: 0px;
+    align-items: end;
+  }
+
+  .projects-carousel__arrows {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .projects-carousel__arrows-svg {
+    width: 60px;
+    height: 50px;
+  }
+
+  .work {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .work__content-img {
+    width: 70px;
+  }
+  .arrow-desktop {
+    display: none;
+  }
+  .arrow-mobile {
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+  .familiarization__title {
+    font-size: 50px;
+    line-height: 1.1;
+  }
+  .projects {
+    padding: 60px 0;
+  }
+
+  .projects__content {
+    gap: 30px;
+  }
+
+  .familiarization__text {
+    font-size: 18px;
+  }
+
+  .familiarization__review {
+    width: 150px;
+    padding: 6px;
+  }
+
+  .work {
+    padding: 16px;
+    gap: 12px;
+    max-width: 420px;
+  }
+
+  .work__content-img {
+    width: 55px;
+  }
+
+  .work__subtitle {
+    font-size: 13px;
+  }
+
+  .tech-item {
+    font-size: 12px;
+    padding: 4px 7px;
+  }
+
+  .projects-carousel__content {
+    height: 280px;
+  }
+}
+@media (max-width: 480px) {
+  .projects {
+    padding: 40px 0;
+  }
+  .familiarization__title {
+    font-size: 40px;
+  }
+  .familiarization__text {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .familiarization__review {
+    width: 160px;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .projects__content {
+    gap: 20px;
+  }
+
+  .projects-carousel__content {
+    height: auto;
+  }
+
+  .work {
+    width: 100%;
+    max-width: 350px;
+    padding: 14px;
+  }
+
+  .work__content-img {
+    width: 50px;
+  }
+
+  .work__name-title {
+    font-size: 16px;
+  }
+
+  .work__name-category {
+    font-size: 10px;
+    width: auto;
+    padding: 4px 8px;
+  }
+
+  .work__subtitle {
+    font-size: 12px;
+  }
+
+  .work__btns-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .projects-carousel__arrows-svg {
+    width: 50px;
+    height: 40px;
+  }
+      .projects-carousel {
+        gap: 20px;
+      }
+}
