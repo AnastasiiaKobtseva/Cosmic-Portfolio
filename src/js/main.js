@@ -389,6 +389,24 @@ function _transitionBackToAbout(onComplete) {
 
       projectsSection.removeEventListener('wheel', handleProjectsScroll);
       aboutSection.addEventListener('wheel', handleAboutScroll, { passive: false });
+      addSectionTouch(
+        aboutSection,
+        () => { if (aboutSection.scrollTop + aboutSection.clientHeight >= aboutSection.scrollHeight - 10) startTransitionToProjects(); },
+        () => { if (aboutSection.scrollTop === 0) {
+          isTransitioningToProjects = true;
+          const fadeDuration = 400;
+          let st = null;
+          function fadeOut(ts) {
+            if (!st) st = ts;
+            let t = Math.min((ts - st) / fadeDuration, 1);
+            t = easeInOut(t);
+            aboutSection.style.opacity = String(1 - t);
+            if (t < 1) requestAnimationFrame(fadeOut);
+            else { isTransitioningToProjects = false; _doZoomBack(); }
+          }
+          requestAnimationFrame(fadeOut);
+        }}
+      );
 
       showSocialIcons();
       isTransitioningToProjects = false;
@@ -1428,17 +1446,6 @@ aboutSection.style.opacity = '0';
 aboutSection.style.transform = 'translateY(100px)';
 
 // === ОСНОВНІ ОБРОБНИКИ СКРОЛУ ===
-// function handleWheel(e) {
-//   e.preventDefault();
-  
-//   if (e.deltaY > 0) {
-//     scrollProgress = Math.min(scrollProgress + 2, maxScroll);
-//   } else {
-//     scrollProgress = Math.max(scrollProgress - 2, 0);
-//   }
-  
-//   updateZoomEffect();
-// }
 function handleWheel(e) {
   e.preventDefault();
   
@@ -1510,6 +1517,27 @@ function _goFromHomeToContacts() {
 
       hideSocialIcons();
       footerSection.addEventListener('wheel', handleContactsScroll, { passive: false });
+      addSectionTouch(
+        footerSection,
+        () => {
+          if (footerSection.scrollTop + footerSection.clientHeight >= footerSection.scrollHeight - 10) {
+            if (isTransitioningToContacts) return;
+            isTransitioningToContacts = true;
+            const duration = 800;
+            let st = null;
+            function slideOut(ts) {
+              if (!st) st = ts;
+              let t = Math.min((ts - st) / duration, 1);
+              t = easeInOut(t);
+              footerSection.style.left = (t * 100) + '%';
+              if (t < 1) requestAnimationFrame(slideOut);
+              else { isTransitioningToContacts = false; footerSection.removeEventListener('wheel', handleContactsScroll); _doZoomBack(); }
+            }
+            requestAnimationFrame(slideOut);
+          }
+        },
+        () => { if (footerSection.scrollTop === 0) _transitionFromContactsToProjects(); }
+      );
       setActiveMenu('contacts');
       scrollProgress = maxScroll;
     }
@@ -1518,26 +1546,39 @@ function _goFromHomeToContacts() {
   requestAnimationFrame(animate);
 }
 let touchStartY = 0;
+let touchStartX = 0;
+let isSwiping = false;
 function handleTouchStart(e) {
   touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+  isSwiping = false;
 }
 
+// === ОНОВЛЕННЯ ZOOM ЕФЕКТУ ===
 function handleTouchMove(e) {
   e.preventDefault();
   const touchY = e.touches[0].clientY;
   const delta = touchStartY - touchY;
-  
-  if (delta > 0) {
-    scrollProgress = Math.min(scrollProgress + 1, maxScroll);
-  } else {
-    scrollProgress = Math.max(scrollProgress - 1, 0);
+
+  if (Math.abs(delta) < 3) return;
+
+  isSwiping = true;
+
+  if (delta < -30 && scrollProgress === 0) {
+    _goFromHomeToContacts();
+    return;
   }
-  
+
+  if (delta > 0) {
+    scrollProgress = Math.min(scrollProgress + 1.5, maxScroll);
+  } else {
+    scrollProgress = Math.max(scrollProgress - 1.5, 0);
+  }
+
   touchStartY = touchY;
   updateZoomEffect();
 }
 
-// === ОНОВЛЕННЯ ZOOM ЕФЕКТУ ===
 function updateZoomEffect() {
   const progress = scrollProgress / maxScroll;
   
@@ -1573,7 +1614,33 @@ function updateZoomEffect() {
     aboutSection.style.pointerEvents = 'none';
   }
 }
+function addSectionTouch(element, onSwipeUp, onSwipeDown) {
+  // Видаляємо старі обробники якщо є
+  if (element._touchStart) element.removeEventListener('touchstart', element._touchStart);
+  if (element._touchEnd) element.removeEventListener('touchend', element._touchEnd);
 
+  let startY = 0;
+  let startX = 0;
+
+  element._touchStart = (e) => {
+    startY = e.touches[0].clientY;
+    startX = e.touches[0].clientX;
+  };
+
+  element._touchEnd = (e) => {
+    const deltaY = startY - e.changedTouches[0].clientY;
+    const deltaX = Math.abs(startX - e.changedTouches[0].clientX);
+
+    if (deltaX > Math.abs(deltaY) * 0.8) return;
+    if (Math.abs(deltaY) < 60) return;
+
+    if (deltaY > 0 && onSwipeUp) onSwipeUp();
+    if (deltaY < 0 && onSwipeDown) onSwipeDown();
+  };
+
+  element.addEventListener('touchstart', element._touchStart, { passive: true });
+  element.addEventListener('touchend', element._touchEnd, { passive: true });
+}
 // === ПЕРЕХІД ДО ЗВИЧАЙНОГО СКРОЛУ ===
 function enableNormalScroll() {
   if (isAboutMeLocked) return;
@@ -1641,6 +1708,31 @@ function enableNormalScroll() {
   
   // Додаємо обробник для переходу до проєктів
   aboutSection.addEventListener('wheel', handleAboutScroll, { passive: false });
+  addSectionTouch(
+    aboutSection,
+    () => {
+      if (aboutSection.scrollTop + aboutSection.clientHeight >= aboutSection.scrollHeight - 10) {
+        startTransitionToProjects();
+      }
+    },
+    () => {
+      if (aboutSection.scrollTop === 0) {
+        if (isTransitioningToProjects) return;
+        isTransitioningToProjects = true;
+        const fadeDuration = 400;
+        let st = null;
+        function fadeOut(ts) {
+          if (!st) st = ts;
+          let t = Math.min((ts - st) / fadeDuration, 1);
+          t = easeInOut(t);
+          aboutSection.style.opacity = String(1 - t);
+          if (t < 1) requestAnimationFrame(fadeOut);
+          else { isTransitioningToProjects = false; _doZoomBack(); }
+        }
+        requestAnimationFrame(fadeOut);
+      }
+    }
+  );
 
   const socialContact = document.querySelector('.social__contact');
   const socialContent = document.querySelector('.social__content');
@@ -1843,6 +1935,11 @@ function completeTransitionToProjects() {
   }
   
   projectsSection.addEventListener('wheel', handleProjectsScroll, { passive: false });
+  addSectionTouch(
+    projectsSection,
+    () => { if (projectsSection.scrollTop + projectsSection.clientHeight >= projectsSection.scrollHeight - 10) startTransitionToContacts(); },
+    () => { if (projectsSection.scrollTop === 0) _transitionBackToAbout(); }
+  );
   
   isTransitioningToProjects = false;
 
@@ -1937,6 +2034,27 @@ function completeTransitionToContacts() {
   
   projectsSection.removeEventListener('wheel', handleProjectsScroll);
   footerSection.addEventListener('wheel', handleContactsScroll, { passive: false });
+  addSectionTouch(
+  footerSection,
+    () => {
+      if (footerSection.scrollTop + footerSection.clientHeight >= footerSection.scrollHeight - 10) {
+        if (isTransitioningToContacts) return;
+        isTransitioningToContacts = true;
+        const duration = 800;
+        let st = null;
+        function slideOut(ts) {
+          if (!st) st = ts;
+          let t = Math.min((ts - st) / duration, 1);
+          t = easeInOut(t);
+          footerSection.style.left = (t * 100) + '%';
+          if (t < 1) requestAnimationFrame(slideOut);
+          else { isTransitioningToContacts = false; footerSection.removeEventListener('wheel', handleContactsScroll); _doZoomBack(); }
+        }
+        requestAnimationFrame(slideOut);
+      }
+    },
+    () => { if (footerSection.scrollTop === 0) _transitionFromContactsToProjects(); }
+  );
   
   isTransitioningToContacts = false;
   const socialContact = document.querySelector('.social__contact');
@@ -1967,6 +2085,10 @@ function lockScrollOnAbout(e) {
 }
 
 // === ІНІЦІАЛІЗАЦІЯ ===
+[aboutSection, projectsSection, footerSection].forEach(sec => {
+  sec.style.scrollbarWidth = 'none';
+  sec.style.msOverflowStyle = 'none';
+});
 window.addEventListener('wheel', handleWheel, { passive: false });
 window.addEventListener('touchstart', handleTouchStart, { passive: false });
 window.addEventListener('touchmove', handleTouchMove, { passive: false });

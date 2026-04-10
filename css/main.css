@@ -14,9 +14,26 @@ body {
 html,
 body {
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden !important;
   touch-action: none;
   width: 100%;
+  overscroll-behavior: none;
+}
+
+#about-me,
+#projects,
+#contacts {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#about-me::-webkit-scrollbar,
+#projects::-webkit-scrollbar,
+#contacts::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  overflow: hidden;
 }
 
 #starfield {
