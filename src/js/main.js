@@ -1450,11 +1450,16 @@ function handleWheel(e) {
   e.preventDefault();
   
   if (e.deltaY < 0 && scrollProgress === 0) {
-    // Скролимо вгору на головній — йдемо на contacts
     _goFromHomeToContacts();
     return;
   }
-  
+
+  if (e.deltaY > 0 && !isAboutMeLocked) {
+    // Одразу плавний zoom до about me
+    animateZoomToEnd(() => {});
+    return;
+  }
+
   if (e.deltaY > 0) {
     scrollProgress = Math.min(scrollProgress + 2, maxScroll);
   } else {
@@ -1569,6 +1574,12 @@ function handleTouchMove(e) {
     return;
   }
 
+  if (delta > 30 && !isAboutMeLocked) {
+    // Свайп вниз на банері — одразу zoom до about me
+    animateZoomToEnd(() => {});
+    return;
+  }
+
   if (delta > 0) {
     scrollProgress = Math.min(scrollProgress + 1.5, maxScroll);
   } else {
@@ -1578,7 +1589,6 @@ function handleTouchMove(e) {
   touchStartY = touchY;
   updateZoomEffect();
 }
-
 function updateZoomEffect() {
   const progress = scrollProgress / maxScroll;
   
